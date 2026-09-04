@@ -9,9 +9,10 @@ Kept More of Them."* — Article: (added after publish)
 
 The model is calibrated to the **shape** of the findings in
 [arXiv:2607.01418](https://arxiv.org/abs/2607.01418) (Murphy-Hill, Butler, Savelieva —
-Microsoft's early-2026 rollout of Claude Code and Copilot CLI): first use spreads through
-social networks, retention tracks coding activity rather than demographics, and adopters
-merge ~24% more PRs. It is **not** fitted to the paper's data, which is not published at
+Microsoft's early-2026 rollout of Claude Code and Copilot CLI): who keeps the tool is
+predicted by how much code they were already writing, not by seniority; who tries it is
+predicted by which of their peers they can see using it; and the output lift for adopters
+is on the order of a quarter more merged PRs. It is **not** fitted to the paper's data, which is not published at
 individual level.
 
 ## What it shows
@@ -23,8 +24,8 @@ Same 120-engineer org, same 24 week-0 seats, same seeds, 16 weeks. Only two thin
 |---|---|---|---|---|---|
 | Juniors first · invisible | 50 | 24 | 48% | 171 | 2.24 |
 | Juniors first · visible | 110 | 52 | 47% | 340 | 2.35 |
-| Most active · invisible | 55 | 37 | 67% | 289 | **1.75** |
-| Most active · visible | 115 | 57 | 49% | 422 | 2.18 |
+| Most active · invisible | 55 | 37 | 68% | 290 | **1.75** |
+| Most active · visible | 115 | 57 | 50% | 423 | 2.18 |
 | *Everyone gets a seat · invisible* | 120 | 40 | 33% | 498 | 2.29 |
 
 Four things fall out, and each has a test pinning it:
@@ -37,9 +38,11 @@ Four things fall out, and each has a test pinning it:
 4. **120 invisible seats retain fewer engineers at week 16 than 24 visible ones**, at ~1.4× the
    token spend (`testSeatsForEveryoneLosesToTwentyFourSeatsPlusVisibility`).
 
-The fixture is deliberately unfavourable to the thesis: activity is independent of seniority
-and every engineer has the same number of in-team and cross-team edges. If "juniors first"
-loses, it loses on retention, not because juniors were drawn as isolated.
+The fixture is deliberately unfavourable to the thesis: activity is drawn without reading
+seniority, and every engineer makes the same number of in-team and cross-team edge attempts, so
+realised degree is not correlated with seniority (`testDegreeIsNotCorrelatedWithSeniority` pins
+it, alongside `testActivityIsNotAProxyForSeniority`). If "juniors first" loses, it loses on
+retention, not because juniors were drawn as isolated.
 
 ## The model in three rules
 
@@ -78,8 +81,9 @@ for o in outcomes {
   Synchronous weekly update; week *t* reads week *t−1* so evaluation order can't leak.
 - `Comparison.swift` — `StandardPolicies`, `PolicyComparison`, `EnsembleOutcome`.
 - `RolloutDemoView.swift` — SwiftUI + Swift Charts front end: pick a seeding rule, toggle
-  visibility, drag the seat count, watch *tried* and *active* diverge.
-- `Tests/RolloutDiffusionTests` — 18 tests covering the fixture, seeding rules, simulator
+  visibility, drag the seat count, watch *tried* and *active* diverge. (Behind `#if canImport`,
+  so the Linux `swift test` run does not compile it — see Verification status.)
+- `Tests/RolloutDiffusionTests` — 19 tests covering the fixture, seeding rules, simulator
   invariants, edge cases (zero seats, out-of-range indices, seat caps) and the four findings.
 - `Demo.xcodeproj` + `Demo/DemoApp.swift` — an iOS app that consumes the package via a local
   package reference, so one clone runs.
@@ -90,7 +94,7 @@ for o in outcomes {
 git clone https://github.com/rajatslakhina/rollout-diffusion-article-demo.git
 cd rollout-diffusion-article-demo
 open Demo.xcodeproj      # pick the Demo scheme, any iPhone Simulator, Build & Run
-swift test               # library + 18 tests, no Xcode needed
+swift test               # library + 19 tests, no Xcode needed
 ```
 
 No other setup. The app is iOS 17+, the package builds on macOS 14+ and Linux (the view
@@ -98,7 +102,7 @@ is behind `#if canImport(SwiftUI) && canImport(Charts)`).
 
 ## Verification status
 
-- `swift build` and `swift test`: **passed, 18/18**, Swift 6.0.3 (Linux aarch64), Swift 6 language mode.
+- `swift build` and `swift test`: **passed, 19/19**, Swift 6.0.3 (Linux aarch64), Swift 6 language mode.
 - `Demo.xcodeproj/project.pbxproj`: hand-authored; braces and parentheses balanced, no dangling object ids,
   `XCLocalSwiftPackageReference` with `relativePath = .`, `GENERATE_INFOPLIST_FILE = YES`, no `.executableTarget`.
 - **Simulator run: not completed in this cycle.** Xcode on the build machine already had an
