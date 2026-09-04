@@ -5,7 +5,7 @@ an agentic coding tool actually spreads through an engineering org — and why t
 every rollout plan budgets for (seats) is not the lever that moves adoption (visible peer use).
 
 It is the demo for the article *"I Gave Every Engineer a Seat. 24 Seats Plus Visibility
-Kept More of Them."* — Article: (added after publish)
+Kept More of Them."* — Article: [https://medium.com/@er.rajatlakhina/i-gave-every-engineer-a-seat-24-seats-plus-visibility-kept-more-of-them-e6b38e15343c](https://medium.com/@er.rajatlakhina/i-gave-every-engineer-a-seat-24-seats-plus-visibility-kept-more-of-them-e6b38e15343c)
 
 The model is calibrated to the **shape** of the findings in
 [arXiv:2607.01418](https://arxiv.org/abs/2607.01418) (Murphy-Hill, Butler, Savelieva —
@@ -18,7 +18,8 @@ individual level.
 ## What it shows
 
 Same 120-engineer org, same 24 week-0 seats, same seeds, 16 weeks. Only two things vary:
-**who** gets seeded and whether teammates can **see** the tool being used.
+**who** gets seeded and whether teammates can **see** the tool being used. The italic last row
+is the control: every one of the 120 engineers seated on day one.
 
 | Policy (mean of 20 seeds) | Ever tried | Active at wk 16 | Retention | Lifted PRs | Cost / lifted PR |
 |---|---|---|---|---|---|
@@ -40,7 +41,7 @@ Four things fall out, and each has a test pinning it:
 
 The fixture is deliberately unfavourable to the thesis: activity is drawn without reading
 seniority, and every engineer makes the same number of in-team and cross-team edge attempts, so
-realised degree is not correlated with seniority (`testDegreeIsNotCorrelatedWithSeniority` pins
+no seniority group is more than one edge better connected than another (`testDegreeIsNotCorrelatedWithSeniority` pins
 it, alongside `testActivityIsNotAProxyForSeniority`). If "juniors first" loses, it loses on
 retention, not because juniors were drawn as isolated.
 
