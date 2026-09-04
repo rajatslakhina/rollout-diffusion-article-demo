@@ -29,8 +29,9 @@ public struct RolloutPolicy: Sendable, Hashable, Identifiable {
     public let seeding: SeedingRule
     /// Week-0 seats. Every later adopter gets a seat on demand (seats are procurable).
     public let seats: Int
-    /// 0 = a CLI agent nobody else can see (the default). 1 = engineered visibility:
-    /// demo channels, "built with agent" PR labels, shared transcripts, pairing.
+    /// Low (`StandardPolicies.invisible` = 0.15) = a CLI agent a teammate sees only by
+    /// accident. 1 = engineered visibility: demo channels, "built with agent" PR labels,
+    /// shared transcripts, pairing.
     public let peerVisibility: Double
 
     public init(name: String, seeding: SeedingRule, seats: Int, peerVisibility: Double) {

@@ -73,9 +73,11 @@ public struct SeededGenerator: RandomNumberGenerator, Sendable {
 }
 
 /// Builds a synthetic org that is *unfavourable to the model's own thesis on purpose*:
-/// activity is independent of seniority, and every engineer gets the same number of
-/// in-team and cross-team edges regardless of seniority. If a seniority-based rollout
-/// loses here, it loses on retention alone, not because juniors were drawn as isolated.
+/// activity is drawn without reading seniority, and every engineer makes the same number
+/// of in-team and cross-team edge *attempts* regardless of seniority (realised degree varies
+/// because edges are reciprocal and de-duplicated, but it is not correlated with seniority —
+/// `testDegreeIsNotCorrelatedWithSeniority` pins that). If a seniority-based rollout loses
+/// here, it loses on retention alone, not because juniors were drawn as isolated.
 public enum OrgFixture {
     public static func make(
         teams: Int = 12,
