@@ -24,6 +24,20 @@ final class OrgFixtureTests: XCTestCase {
         let spread = means.values.max()! - means.values.min()!
         XCTAssertLessThan(spread, 0.15, "seniority groups should have comparable mean activity, got \(means)")
     }
+
+    func testDegreeIsNotCorrelatedWithSeniority() {
+        // Realised degree varies (edges are reciprocal and de-duplicated), but no seniority
+        // group may be systematically better connected than another.
+        let org = OrgFixture.make()
+        var means: [Seniority: Double] = [:]
+        for s in Seniority.allCases {
+            let idx = org.indices { $0.seniority == s }
+            means[s] = Double(idx.reduce(0) { $0 + org.neighbors[$1].count }) / Double(idx.count)
+        }
+        let spread = means.values.max()! - means.values.min()!
+        XCTAssertLessThan(spread, 1.0, "mean degree by seniority should be within one edge, got \(means)")
+        XCTAssertGreaterThan(org.neighbors.map(\.count).min()!, 0, "nobody is isolated")
+    }
 }
 
 final class SeedingTests: XCTestCase {
